@@ -8,6 +8,8 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Nombre", "valor del header")
+		w.Header().Add("NombreN", "valor del header")
 		fmt.Fprintf(w, "Hola Mundo")
 	})
 
