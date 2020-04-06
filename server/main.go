@@ -6,19 +6,19 @@ import (
 	"net/http"
 )
 
-// handler
-func Hola(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World")
+type User struct {
+	name string
 }
 
-func Hola2(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World 2")
+func (this *User) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello World: "+this.name)
 }
 
 func main() {
+	christian := &User{name: "Christian"}
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", Hola)
-	mux.HandleFunc("/dos", Hola2)
+
+	mux.Handle("/christian", christian)
 
 	server := &http.Server{
 		Addr:    "localhost:3000",
