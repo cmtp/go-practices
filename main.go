@@ -2,23 +2,26 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
+	"net/url"
 )
 
-// GET, POST, PUT, DELETE
+func createURL() string {
+	u, err := url.Parse("http://localhost:3000/params?nombre=valor")
+	if err != nil {
+		panic(err)
+	}
+	// u.Host = "localhost:3000"
+	// u.Scheme = "http"
+
+	// query := u.Query()
+	// query.Add("nombre", "valor")
+
+	// u.RawQuery = query.Encode()
+
+	return u.String()
+}
 
 func main() {
-	http.HandleFunc("/params", func(w http.ResponseWriter, r *http.Request) {
-		// fmt.Printf(r.Header)
-
-		accessToken := r.Header.Get("access_token")
-		if len(accessToken) != 0 {
-			fmt.Println(accessToken)
-		}
-		r.Header.Set("nombre", "valor")
-		fmt.Println(r.Header.Get("nombre"))
-	})
-
-	log.Fatal(http.ListenAndServe("localhost:3000", nil))
+	url := createURL()
+	fmt.Println("La url final es: " + url)
 }
