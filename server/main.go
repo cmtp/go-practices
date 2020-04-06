@@ -1,24 +1,27 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 )
 
-type User struct {
-	name string
-}
+// func Redirect(w http.ResponseWriter, r *http.Request) {
+// 	http.Redirect(w, r, "https://www.google.com", http.StatusMovedPermanently)
+// }
 
-func (this *User) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World: "+this.name)
-}
+// func NotFound(w http.ResponseWriter, r *http.Request) {
+// 	http.NotFound(w, r)
+// }
 
 func main() {
-	christian := &User{name: "Christian"}
+
+	redirect := http.RedirectHandler("https://www.google.com", http.StatusMovedPermanently)
+	notFound := http.NotFoundHandler()
+
 	mux := http.NewServeMux()
 
-	mux.Handle("/christian", christian)
+	mux.Handle("/redirect", redirect)
+	mux.Handle("/not", notFound)
 
 	server := &http.Server{
 		Addr:    "localhost:3000",
