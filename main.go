@@ -10,18 +10,14 @@ import (
 
 func main() {
 	http.HandleFunc("/params", func(w http.ResponseWriter, r *http.Request) {
+		// fmt.Printf(r.Header)
 
-		fmt.Println(r.URL)
-		values := r.URL.Query()
-		// remove query param
-		values.Del("otro")
-		values.Add("name", "Christian")
-		values.Add("course", "Go Web")
-		values.Add("Job", "Test")
-
-		r.URL.RawQuery = values.Encode()
-
-		fmt.Println(r.URL)
+		accessToken := r.Header.Get("access_token")
+		if len(accessToken) != 0 {
+			fmt.Println(accessToken)
+		}
+		r.Header.Set("nombre", "valor")
+		fmt.Println(r.Header.Get("nombre"))
 	})
 
 	log.Fatal(http.ListenAndServe("localhost:3000", nil))
