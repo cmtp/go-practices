@@ -9,22 +9,18 @@ import (
 // GET, POST, PUT, DELETE
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("el metodo es " + r.Method)
-
-		switch r.Method {
-		case "GET":
-			fmt.Fprint(w, "Hello World from GET")
-		case "POST":
-			fmt.Fprint(w, "Hello World from POST")
-		case "PUT":
-			fmt.Fprint(w, "Hello World from PUT")
-		case "DELETE":
-			fmt.Fprint(w, "Hello World from DELETE")
-		default:
-			http.Error(w, "Invalid Method", http.StatusBadRequest)
+	http.HandleFunc("/params", func(w http.ResponseWriter, r *http.Request) {
+		// fmt.Println(r.URL.RawQuery)
+		// fmt.Println(r.URL.Query())
+		name := r.URL.Query().Get("name")
+		if len(name) != 0 {
+			fmt.Println(name)
 		}
-		// fmt.Fprintf(w, "Hola Mundo")
+
+		param := r.URL.Query().Get("param")
+		if len(param) != 0 {
+			fmt.Println(param)
+		}
 	})
 
 	log.Fatal(http.ListenAndServe("localhost:3000", nil))
