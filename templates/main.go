@@ -7,13 +7,19 @@ import (
 	"net/http"
 )
 
+type User struct {
+	UserName string
+	Age      int
+}
+
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		template, err := template.New("Hola").Parse("Hola Mundo.")
+		template, err := template.ParseFiles("./templates/index.html")
 		if err != nil {
 			panic(err)
 		}
-		template.Execute(w, nil)
+		user := User{"Christian", 22}
+		template.Execute(w, user)
 	})
 
 	fmt.Println("El servidor a la escucha en el puerto :3000")
