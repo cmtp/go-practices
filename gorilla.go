@@ -20,7 +20,8 @@ func YourHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := mux.NewRouter()
 	// Routes consist of a path and a handler function.
-	r.HandleFunc("/usuarios/{nombre}/{id:[0-9]+}", YourHandler)
+	r.HandleFunc("/usuarios/{id:[0-9]+}", YourHandler).Methods("PUT", "DELETE")
+	// DELETE, PUT, GET
 
 	// Bind to a port and pass our router in
 	log.Fatal(http.ListenAndServe(":3000", r))
