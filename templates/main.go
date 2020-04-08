@@ -13,8 +13,9 @@ type User struct {
 }
 
 func main() {
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		template, err := template.ParseFiles("./templates/index.html")
+		template, err := template.ParseGlob("templates/**/*.html")
 		if err != nil {
 			panic(err)
 		}
