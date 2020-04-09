@@ -15,10 +15,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	userID, _ := strconv.Atoi(vars["id"])
-
-	if user, err := models.GetUser(userID); err != nil {
+	if user, err := getUserByRequest(r); err != nil {
 		models.SendNotFound(w)
 	} else {
 		models.SendData(w, user)
@@ -37,9 +34,34 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Se actualiza un usuario")
+	user, err := getUserByRequest(r)
+	if err != nil {
+		models.SendNotFound(w)
+		return
+	}
+	userResponse := models.User{}
+	decoder := json.NewDecoder(r.Body)
+
+	if err := decoder.Decode(&userResponse); err != nil {
+		models.SendUnprocessableEntity(w)
+		return
+	}
+
+	user = models.UpdateUser(user, userResponse.Username, userResponse.Password)
+	models.SendData(w, user)
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Se elimina un usuario")
+}
+
+func getUserByRequest(r *http.Request) (models.User, error) {
+	vars := mux.Vars(r)
+	userID, _ := strconv.Atoi(vars["id"])
+
+	if user, err := models.GetUser(userID); err != nil {
+		return user, err
+	} else {
+		return user, nil
+	}
 }
