@@ -1,8 +1,11 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"../models"
 )
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
@@ -10,7 +13,11 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Se obtiene un usuario")
+	w.Header().Set("Content-Type", "application/json")
+	user := models.User{ID: 1, Username: "chris", Password: "admin123"}
+	output, _ := json.Marshal(&user)
+
+	fmt.Fprintf(w, string(output))
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
