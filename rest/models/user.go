@@ -8,11 +8,21 @@ type User struct {
 	Password string `json:"password"`
 }
 
+type Users []User
+
 var users = make(map[int]User)
 
 func SetDefaultUser() {
 	user := User{ID: 1, Username: "chris", Password: "admin123"}
 	users[user.ID] = user
+}
+
+func GetUsers() Users {
+	list := Users{}
+	for _, user := range users {
+		list = append(list, user)
+	}
+	return list
 }
 
 func GetUser(userId int) (User, error) {

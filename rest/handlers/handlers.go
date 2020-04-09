@@ -10,7 +10,7 @@ import (
 )
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Se obtiene todos los usuarios")
+	models.SendData(w, models.GetUsers())
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
