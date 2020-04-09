@@ -17,14 +17,19 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
-	userId, _ := strconv.Atoi(vars["id"])
+	userID, _ := strconv.Atoi(vars["id"])
 
-	user, err := models.GetUser(userId)
+	response := models.GetDefaultResponse()
+	user, err := models.GetUser(userID)
+
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
+		response.NotFound(err.Error())
+	} else {
+		response.Data = user
 	}
 
-	output, _ := json.Marshal(&user)
+	output, _ := json.Marshal(&response)
 
 	fmt.Fprintf(w, string(output))
 }
