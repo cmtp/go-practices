@@ -4,6 +4,11 @@ version: '3.1'
 services:
 
   db:
-    image: mariadb:10.5.1
+    image: mariadb:10.5.2
     environment:
+      MYSQL_DATABASE: project_go_web
       MYSQL_ROOT_PASSWORD: Password1!
+    ports: 
+      - '3306:3306'
+    expose: 
+      - '3306'
