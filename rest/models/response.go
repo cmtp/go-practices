@@ -23,9 +23,20 @@ func (this *Response) NotFound() {
 	this.Message = "Resource Not Found."
 }
 
+func (this *Response) UnprocessableEntity() {
+	this.Status = http.StatusUnprocessableEntity
+	this.Message = "Unprocessable Entity"
+}
+
 func SendNotFound(w http.ResponseWriter) {
 	response := CreateDefaultResponse(w)
 	response.NotFound()
+	response.Send()
+}
+
+func SendUnprocessableEntity(w http.ResponseWriter) {
+	response := CreateDefaultResponse(w)
+	response.UnprocessableEntity()
 	response.Send()
 }
 

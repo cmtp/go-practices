@@ -31,3 +31,9 @@ func GetUser(userId int) (User, error) {
 	}
 	return User{}, errors.New("El usuario no se encuentra dentro del mapa")
 }
+
+func SaveUser(user User) User {
+	user.ID = len(users) + 1
+	users[user.ID] = user
+	return user
+}
