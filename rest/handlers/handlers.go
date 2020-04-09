@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -15,23 +14,14 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	userID, _ := strconv.Atoi(vars["id"])
 
-	response := models.GetDefaultResponse()
-	user, err := models.GetUser(userID)
-
-	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		response.NotFound(err.Error())
+	if user, err := models.GetUser(userID); err != nil {
+		models.SendNotFound(w)
 	} else {
-		response.Data = user
+		models.SendData(w, user)
 	}
-
-	output, _ := json.Marshal(&response)
-
-	fmt.Fprintf(w, string(output))
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
