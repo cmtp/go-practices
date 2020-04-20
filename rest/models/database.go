@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -23,6 +24,16 @@ func CreateConnection() {
 		db = connection
 		fmt.Println("Connection exitosa!")
 	}
+}
+
+func ExistsTable(tableName string) bool {
+	sql := fmt.Sprintf("SHOW TABLES LIKE '%s'", tableName)
+	rows, err := db.Query(sql)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return rows.Next()
 }
 
 func Ping() {
