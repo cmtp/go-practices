@@ -28,10 +28,7 @@ func CreateConnection() {
 
 func existsTable(tableName string) bool {
 	sql := fmt.Sprintf("SHOW TABLES LIKE '%s'", tableName)
-	rows, err := db.Query(sql)
-	if err != nil {
-		log.Println(err)
-	}
+	rows, _ := Query(sql);
 
 	return rows.Next()
 }
@@ -42,11 +39,24 @@ func CreateTables() {
 
 func createTable(tableName, schema string) {
 	if !existsTable(tableName) {
-		_, err := db.Exec(schema)
-		if err == nil {
-			log.Println(err)
-		}
+		Exec(schema)
 	}
+}
+
+func Exec(query string, args ...interface{}) (sql.Result, error) {
+	result, err := db.Exec(query, args...)
+	if err == nil {
+		log.Println(err)
+	}
+	return result, err
+}
+
+func Query(query string, args ...interface{}) (*sql.Rows, error) {
+	rows, err := db.Query(query, args...)
+	if err != nil {
+		log.Println(err)
+	}
+	return rows, err
 }
 
 func Ping() {
