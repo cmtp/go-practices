@@ -11,7 +11,7 @@ import (
 var db *sql.DB
 
 const username string = "root"
-const password string = "Password1!"
+const password string = ""
 const host string = "localhost"
 const port int = 3306
 const database string = "project_go_web"
@@ -26,7 +26,7 @@ func CreateConnection() {
 	}
 }
 
-func ExistsTable(tableName string) bool {
+func existsTable(tableName string) bool {
 	sql := fmt.Sprintf("SHOW TABLES LIKE '%s'", tableName)
 	rows, err := db.Query(sql)
 	if err != nil {
@@ -34,6 +34,19 @@ func ExistsTable(tableName string) bool {
 	}
 
 	return rows.Next()
+}
+
+func CreateTables() {
+	createTable("users", userSchema)
+}
+
+func createTable(tableName, schema string) {
+	if !existsTable(tableName) {
+		_, err := db.Exec(schema)
+		if err == nil {
+			log.Println(err)
+		}
+	}
 }
 
 func Ping() {
