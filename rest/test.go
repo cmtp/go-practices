@@ -9,8 +9,7 @@ func main() {
 	models.CreateConnection()
 	models.CreateTables()
 
-	user := models.NewUser("christian", "123")
-	user.Save()
+	user := models.CreateUser("christian", "123", "christian@admin.com")
 	fmt.Println(user)
 	models.CloseConnection()
 }
