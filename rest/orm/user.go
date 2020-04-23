@@ -38,6 +38,15 @@ func GetUser(id int) *User {
 }
 
 func (this *User) Save() {
-	db.Create(&this)
+	if this.ID == 0 {
+		db.Create(&this)
+	} else {
+		this.update()
+	}
 
+}
+
+func (this *User) update() {
+	user := User{ Username: this.Username, Password: this.Password, Email: this.Email}
+	db.Model(&this).UpdateColumns(user)
 }
