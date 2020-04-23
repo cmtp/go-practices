@@ -50,3 +50,7 @@ func (this *User) update() {
 	user := User{ Username: this.Username, Password: this.Password, Email: this.Email}
 	db.Model(&this).UpdateColumns(user)
 }
+
+func (this *User) Delete() {
+	db.Delete(*this)
+}

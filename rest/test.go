@@ -12,9 +12,6 @@ func main() {
 	orm.CreateUser("christian", "123", "christian@admin.com")
 	orm.CreateUser("christian2", "123", "christian@admin.com")
 	orm.CreateUser("christian3", "123", "christian@admin.com")
-	
-	// users := orm.GetUsers()
-	// fmt.Println(users)
 
 	user := orm.GetUser(1)
 	user.Username = "testing"
@@ -22,5 +19,6 @@ func main() {
 	user.Email = "cambio de correo"
 	user.Save()
 	fmt.Println(user)
+	user.Delete()
 	orm.CloseConnection()
 }
