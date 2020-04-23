@@ -21,3 +21,8 @@ func CreateConnection() {
 func CloseConnection() {
 	db.Close()
 }
+
+func CreateTables() {
+	db.DropTableIfExists(&User{}) // Truncate
+	db.CreateTable(&User{})
+}
