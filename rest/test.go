@@ -9,14 +9,12 @@ func main() {
 	models.CreateConnection()
 	models.CreateTables()
 
-	user := models.CreateUser("christian", "123", "christian@admin.com")
+	models.CreateUser("christian1", "123", "christian@admin.com")
+	models.CreateUser("christian2", "123", "christian@admin.com")
+	models.CreateUser("christian3", "123", "christian@admin.com")
+	
+	user := models.GetUser(2)
 	fmt.Println(user)
 
-	user.Username = "Cambio de nombre"
-	user.Password = "Cambio de Password"
-	user.Email = "Cambio de Email"
-	user.Save()
-
-	user.Delete()
 	models.CloseConnection()
 }
