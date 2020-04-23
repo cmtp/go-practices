@@ -17,7 +17,7 @@ var database *DatabaseConfig
 
 func init() {
 	database = &DatabaseConfig{}
-	database.Username = gonv.GetStringEnv("USERNAME", "root")
+	database.Username = gonv.GetStringEnv("DBUSERNAME", "root")
 	database.Password = gonv.GetStringEnv("PASSWORD", "")
 	database.Host = gonv.GetStringEnv("HOST", "localhost")
 	database.Port = gonv.GetIntEnv("PORT", 3306)

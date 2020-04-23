@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"./config"
+	"./models"
 )
 
 func main() {
-	url := config.GetUrlDatabase()
-	fmt.Println(url)
+	models.CreateConnection()
+	models.Ping()
+	models.CloseConnection()
 }
