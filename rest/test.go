@@ -2,12 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"./config"
 )
 
 func main() {
-	os.Setenv("HOST", "localhost") // create
-	os.Unsetenv("HOST") // delete
-	env := os.Getenv("HOST") // get
-	fmt.Println(env)
+	url := config.GetUrlDatabase()
+	fmt.Println(url)
 }
