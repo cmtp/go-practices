@@ -1,11 +1,10 @@
 package main
 
 import (
-	"./models"
+	"./orm"
 )
 
 func main() {
-	models.CreateConnection()
-	models.Ping()
-	models.CloseConnection()
+	orm.CreateConnection()
+	orm.CloseConnection()
 }
