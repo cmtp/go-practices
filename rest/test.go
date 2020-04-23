@@ -16,5 +16,7 @@ func main() {
 	user.Password = "Cambio de Password"
 	user.Email = "Cambio de Email"
 	user.Save()
+
+	user.Delete()
 	models.CloseConnection()
 }
