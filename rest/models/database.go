@@ -4,11 +4,17 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+
 	"../config"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
+
+func init() {
+	CreateConnection()
+	CreateTables()
+}
 
 // <username>:<password>@tcp(<host>:<port>)/<database>
 func CreateConnection() {
@@ -23,7 +29,7 @@ func CreateConnection() {
 
 func existsTable(tableName string) bool {
 	sql := fmt.Sprintf("SHOW TABLES LIKE '%s'", tableName)
-	rows, _ := Query(sql);
+	rows, _ := Query(sql)
 
 	return rows.Next()
 }
@@ -43,7 +49,7 @@ func createTable(tableName, schema string) {
 func truncateTable(tableName string) {
 	sql := fmt.Sprintf("TRUNCATE %s", tableName)
 	Exec(sql)
-} 
+}
 
 func Exec(query string, args ...interface{}) (sql.Result, error) {
 	result, err := db.Exec(query, args...)
@@ -59,6 +65,10 @@ func Query(query string, args ...interface{}) (*sql.Rows, error) {
 		log.Println(err)
 	}
 	return rows, err
+}
+
+func GetConnection() *sql.DB {
+	return db
 }
 
 func Ping() {
