@@ -19,34 +19,36 @@ const userSchema string = `CREATE TABLE users(
 type Users []User
 
 func NewUser(username, password, email string) *User {
-	user := &User { Username: username, Password: password, Email: email}
+	user := &User{Username: username, Password: password, Email: email}
 	return user
 }
 
-func CreateUser(username, password, email string) *User {
+func CreateUser(username, password, email string) (*User, error) {
 	user := NewUser(username, password, email)
-	user.Save()
-	return user
+	err := user.Save()
+	return user, err
 }
 
-func (this *User) Save() {
+func (this *User) Save() error {
 	if this.ID == 0 {
-		this.insert()
+		return this.insert()
 	} else {
-		this.update()
+		return this.update()
 	}
 }
 
-func (this *User) insert() {
+func (this *User) insert() error {
 	sql := "INSERT users SET username=?, password=?, email=?"
-	
-	result, _ := Exec(sql, this.Username, this.Password, this.Email)
+
+	result, err := Exec(sql, this.Username, this.Password, this.Email)
 	this.ID, _ = result.LastInsertId() // int64
+	return err
 }
 
-func (this *User) update() {
+func (this *User) update() error {
 	sql := "UPDATE users SET username=?, password=?, email=?"
-	Exec(sql, this.Username, this.Password, this.Email)
+	_, err := Exec(sql, this.Username, this.Password, this.Email)
+	return err
 }
 
 func (this *User) Delete() {
@@ -54,7 +56,7 @@ func (this *User) Delete() {
 	Exec(sql, this.ID)
 }
 
-func GetUser(id int) *User{
+func GetUser(id int) *User {
 	user := NewUser("", "", "")
 	sql := "SELECT id, username, password, email FROM users WHERE id=?"
 	rows, _ := Query(sql, id)

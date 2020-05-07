@@ -13,3 +13,17 @@ func TestNewUser(t *testing.T) {
 	}
 
 }
+
+func TestSave(t *testing.T) {
+	user := models.NewUser("username", "password", "email")
+	if err := user.Save(); err != nil {
+		t.Error("No es posible crear el usuario", err)
+	}
+}
+
+func TestCreateUser(t *testing.T) {
+	_, err := models.CreateUser("username", "password", "email")
+	if err != nil {
+		t.Error("No es posible insertar el objeto", nil)
+	}
+}
