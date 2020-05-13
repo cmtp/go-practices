@@ -13,11 +13,14 @@ var db *sql.DB
 
 func init() {
 	CreateConnection()
-	CreateTables()
 }
 
 // <username>:<password>@tcp(<host>:<port>)/<database>
 func CreateConnection() {
+	if GetConnection() != nil {
+		return
+	}
+
 	url := config.GetUrlDatabase()
 	if connection, err := sql.Open("mysql", url); err != nil {
 		panic(err)

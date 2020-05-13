@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"testing"
+
+	"../models"
 )
 
 func TestMain(m *testing.M) {
@@ -15,6 +17,8 @@ func TestMain(m *testing.M) {
 
 func beforeTest() {
 	fmt.Println("Antes de las pruebas")
+	models.CreateConnection()
+	models.CreateTables()
 }
 
 func afterTest() {
