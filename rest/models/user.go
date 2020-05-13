@@ -11,7 +11,7 @@ type User struct {
 
 const userSchema string = `CREATE TABLE users(
 		id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-		username VARCHAR(30) NOT NULL,
+		username VARCHAR(30) NOT NULL UNIQUE,
 		password VARCHAR(64) NOT NULL,
 		email VARCHAR(40),
 		created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`
@@ -41,7 +41,10 @@ func (this *User) insert() error {
 	sql := "INSERT users SET username=?, password=?, email=?"
 
 	result, err := Exec(sql, this.Username, this.Password, this.Email)
-	this.ID, _ = result.LastInsertId() // int64
+	if err != nil {
+		return err
+	}
+	this.ID, err = result.LastInsertId() // int64
 	return err
 }
 
