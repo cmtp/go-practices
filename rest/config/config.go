@@ -18,7 +18,7 @@ var database *DatabaseConfig
 func init() {
 	database = &DatabaseConfig{}
 	database.Username = gonv.GetStringEnv("DBUSERNAME", "root")
-	database.Password = gonv.GetStringEnv("PASSWORD", "")
+	database.Password = gonv.GetStringEnv("PASSWORD", "Password1!")
 	database.Host = gonv.GetStringEnv("HOST", "localhost")
 	database.Port = gonv.GetIntEnv("PORT", 3306)
 	database.Database = gonv.GetStringEnv("DATABASE", "project_go_web")

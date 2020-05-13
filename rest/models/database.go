@@ -70,6 +70,15 @@ func Query(query string, args ...interface{}) (*sql.Rows, error) {
 	return rows, err
 }
 
+func InsertData(query string, args ...interface{}) (int64, error) {
+	if result, err := Exec(query, args...); err != nil {
+		return int64(0), err
+	} else {
+		id, err := result.LastInsertId()
+		return id, err
+	}
+}
+
 func GetConnection() *sql.DB {
 	return db
 }
